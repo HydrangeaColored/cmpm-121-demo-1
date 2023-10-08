@@ -28,3 +28,14 @@ button.addEventListener("click", () => {
     counter.innerHTML = `You've eaten ${currCount} fries! 🍟🍟🍟`;
   }
 });
+
+setInterval(IntervalIncrement, 1000);
+
+function IntervalIncrement() {
+  currCount++;
+  if (currCount == 1) {
+    counter.innerHTML = `You've eaten ${currCount} fry! 👍`;
+  } else {
+    counter.innerHTML = `You've eaten ${currCount} fries! 🍟🍟🍟`;
+  }
+}
