@@ -23,13 +23,22 @@ app.append(button);
 button.addEventListener("click", () => {
   currCount++;
   if (currCount == 1) {
-    counter.innerHTML = `You've eaten ${currCount} fry! 👍`;
+    counter.innerHTML = `You've eaten ${currCount.toFixed(2)} fry! 👍`;
   } else {
-    counter.innerHTML = `You've eaten ${currCount} fries! 🍟🍟🍟`;
+    counter.innerHTML = `You've eaten ${currCount.toFixed(2)} fries! 🍟🍟🍟`;
   }
 });
 
-setInterval(IntervalIncrement, 1000);
+function increaseScore(count = 1) {
+  currCount += count;
+  if (currCount == 1) {
+    counter.innerHTML = `You've eaten ${currCount.toFixed(2)} fry! 👍`;
+  } else {
+    counter.innerHTML = `You've eaten ${currCount.toFixed(2)} fries! 🍟🍟🍟`;
+  }
+}
+
+/*setInterval(IntervalIncrement, 1000);
 
 function IntervalIncrement() {
   currCount++;
@@ -38,4 +47,16 @@ function IntervalIncrement() {
   } else {
     counter.innerHTML = `You've eaten ${currCount} fries! 🍟🍟🍟`;
   }
+}*/
+
+let timeStart = Date.now();
+function continuousGrowth() {
+  if (Date.now() - timeStart > (1 / 60) * 1000) {
+    increaseScore(1 / 60);
+    window.requestAnimationFrame(continuousGrowth);
+    timeStart = Date.now();
+  } else {
+    window.requestAnimationFrame(continuousGrowth);
+  }
 }
+window.requestAnimationFrame(continuousGrowth);
