@@ -13,7 +13,7 @@ app.append(header);
 let currCount = 0;
 
 const counter = document.createElement("div");
-counter.innerHTML = `You've eaten ${currCount} fries! 😔`;
+currScorePrint();
 app.append(counter);
 
 const button = document.createElement("button");
@@ -21,11 +21,7 @@ button.innerHTML = "Eat a fry!";
 app.append(button);
 
 function currScorePrint() {
-  if (currCount == 1) {
-    counter.innerHTML = `You've eaten ${currCount.toFixed(2)} fry! 👍`;
-  } else {
-    counter.innerHTML = `You've eaten ${currCount.toFixed(2)} fries! 🍟🍟🍟`;
-  }
+  counter.innerHTML = `You've eaten ${currCount.toFixed(2)} fries! 🍟🍟🍟`;
 }
 button.addEventListener("click", () => {
   currCount++;
@@ -71,7 +67,7 @@ const upgradeDiv = document.createElement("div");
 app.append(upgradeDiv);
 
 const upgradeButtonA = document.createElement("button");
-upgradeButtonA.innerHTML = `Upgrade A cost: ${upgradeAPrice.toFixed(2)}`;
+upgradeButtonA.innerHTML = `Cup of fries cost: ${upgradeAPrice.toFixed(2)}`;
 app.append(upgradeButtonA);
 
 upgradeButtonA.addEventListener("click", () => {
@@ -86,7 +82,7 @@ upgradeButtonA.addEventListener("click", () => {
 });
 
 const upgradeButtonB = document.createElement("button");
-upgradeButtonB.innerHTML = `Upgrade B cost: ${upgradeBPrice.toFixed(2)}`;
+upgradeButtonB.innerHTML = `Basket of fries cost: ${upgradeBPrice.toFixed(2)}`;
 app.append(upgradeButtonB);
 
 upgradeButtonB.addEventListener("click", () => {
@@ -101,7 +97,9 @@ upgradeButtonB.addEventListener("click", () => {
 });
 
 const upgradeButtonC = document.createElement("button");
-upgradeButtonC.innerHTML = `Upgrade C cost: ${upgradeCPrice.toFixed(2)}`;
+upgradeButtonC.innerHTML = `Truckful of fries cost: ${upgradeCPrice.toFixed(
+  2,
+)}`;
 app.append(upgradeButtonC);
 
 upgradeButtonC.addEventListener("click", () => {
@@ -136,9 +134,7 @@ function upgradeCountTracker() {
 window.requestAnimationFrame(upgradeCountTracker);
 
 const statDisplay = document.createElement("div");
-statDisplay.innerHTML = `You're currently eating ${upgradeTracker.toFixed(
-  1,
-)} fries/sec! `;
+currDisplayPrint;
 app.append(statDisplay);
 
 function currDisplayPrint() {
@@ -148,11 +144,11 @@ function currDisplayPrint() {
 }
 
 const upgradeDisplay = document.createElement("div");
-upgradeDisplay.innerHTML = `You're bought ${upgradeATracker} upgrade As,  ${upgradeBTracker} upgrade Bs, and ${upgradeCTracker} upgradeCs!`;
+updateDisplayPrint();
 app.append(upgradeDisplay);
 
 function updateDisplayPrint() {
-  upgradeDisplay.innerHTML = `You're bought ${upgradeATracker} upgrade As,  ${upgradeBTracker} upgrade Bs, and ${upgradeCTracker} upgradeCs!`;
+  upgradeDisplay.innerHTML = `You're bought ${upgradeATracker} cup of fries,  ${upgradeBTracker} basket of fries, and ${upgradeCTracker} truckful of fries!`;
 }
 
 function updateUpgradePrint() {
