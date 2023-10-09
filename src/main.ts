@@ -51,6 +51,9 @@ let upgradeTracker = 0;
 let upgradeATracker = 0;
 let upgradeBTracker = 0;
 let upgradeCTracker = 0;
+let upgradeAPrice = 10;
+let upgradeBPrice = 100;
+let upgradeCPrice = 1000;
 
 let timeStart = Date.now();
 function continuousGrowth() {
@@ -68,56 +71,62 @@ const upgradeDiv = document.createElement("div");
 app.append(upgradeDiv);
 
 const upgradeButtonA = document.createElement("button");
-upgradeButtonA.innerHTML = "Upgrade A";
+upgradeButtonA.innerHTML = `Upgrade A cost: ${upgradeAPrice.toFixed(2)}`;
 app.append(upgradeButtonA);
 
 upgradeButtonA.addEventListener("click", () => {
   currCount -= 10;
   upgradeTracker += 0.1;
   upgradeATracker++;
+  upgradeAPrice *= 1.15;
   currDisplayPrint();
   currScorePrint();
-  upgradeDisplayPrint();
+  updateDisplayPrint();
+  updateUpgradePrint();
 });
 
 const upgradeButtonB = document.createElement("button");
-upgradeButtonB.innerHTML = "Upgrade B";
+upgradeButtonB.innerHTML = `Upgrade B cost: ${upgradeBPrice.toFixed(2)}`;
 app.append(upgradeButtonB);
 
 upgradeButtonB.addEventListener("click", () => {
   currCount -= 100;
   upgradeTracker += 2;
   upgradeBTracker++;
+  upgradeBPrice *= 1.15;
   currDisplayPrint();
   currScorePrint();
-  upgradeDisplayPrint();
+  updateDisplayPrint();
+  updateUpgradePrint();
 });
 
 const upgradeButtonC = document.createElement("button");
-upgradeButtonC.innerHTML = "Upgrade C";
+upgradeButtonC.innerHTML = `Upgrade C cost: ${upgradeCPrice.toFixed(2)}`;
 app.append(upgradeButtonC);
 
 upgradeButtonC.addEventListener("click", () => {
   currCount -= 1000;
   upgradeTracker += 50;
   upgradeCTracker++;
+  upgradeCPrice *= 1.15;
   currDisplayPrint();
   currScorePrint();
-  upgradeDisplayPrint();
+  updateDisplayPrint();
+  updateUpgradePrint();
 });
 
 function upgradeCountTracker() {
-  if (currCount >= 10) {
+  if (currCount >= upgradeAPrice) {
     upgradeButtonA.disabled = false;
   } else {
     upgradeButtonA.disabled = true;
   }
-  if (currCount >= 100) {
+  if (currCount >= upgradeBPrice) {
     upgradeButtonB.disabled = false;
   } else {
     upgradeButtonB.disabled = true;
   }
-  if (currCount >= 1000) {
+  if (currCount >= upgradeCPrice) {
     upgradeButtonC.disabled = false;
   } else {
     upgradeButtonC.disabled = true;
@@ -142,6 +151,12 @@ const upgradeDisplay = document.createElement("div");
 upgradeDisplay.innerHTML = `You're bought ${upgradeATracker} upgrade As,  ${upgradeBTracker} upgrade Bs, and ${upgradeCTracker} upgradeCs!`;
 app.append(upgradeDisplay);
 
-function upgradeDisplayPrint() {
+function updateDisplayPrint() {
   upgradeDisplay.innerHTML = `You're bought ${upgradeATracker} upgrade As,  ${upgradeBTracker} upgrade Bs, and ${upgradeCTracker} upgradeCs!`;
+}
+
+function updateUpgradePrint() {
+  upgradeButtonA.innerHTML = `Upgrade A cost: ${upgradeAPrice.toFixed(2)}`;
+  upgradeButtonB.innerHTML = `Upgrade B cost: ${upgradeBPrice.toFixed(2)}`;
+  upgradeButtonC.innerHTML = `Upgrade C cost: ${upgradeCPrice.toFixed(2)}`;
 }
