@@ -10,12 +10,40 @@ interface Item {
   name: string;
   cost: number;
   rate: number;
+  description: string;
 }
 
 const availableItems: Item[] = [
-  { name: "Scoop of fries", cost: 10, rate: 0.1 },
-  { name: "Cup of fries", cost: 100, rate: 2 },
-  { name: "Basket of fries", cost: 1000, rate: 50 },
+  {
+    name: "Scoop of fries",
+    cost: 10,
+    rate: 0.1,
+    description: "Only a small handful",
+  },
+  {
+    name: "Cup of fries",
+    cost: 100,
+    rate: 2,
+    description: "More than a happy meal",
+  },
+  {
+    name: "Basket of fries",
+    cost: 1000,
+    rate: 50,
+    description: "5 guys' version of small fries",
+  },
+  {
+    name: "Truck of fries",
+    cost: 10000,
+    rate: 300,
+    description: "You got a U-haul truck handy?",
+  },
+  {
+    name: "Pool of fries",
+    cost: 100000,
+    rate: 10500,
+    description: "(warning may induce health problems)",
+  },
 ];
 
 const header = document.createElement("h1");
@@ -59,6 +87,8 @@ let upgradeTracker = 0;
 let upgradeATracker = 0;
 let upgradeBTracker = 0;
 let upgradeCTracker = 0;
+let upgradeDTracker = 0;
+let upgradeETracker = 0;
 
 let timeStart = Date.now();
 function continuousGrowth() {
@@ -126,6 +156,40 @@ upgradeButtonC.addEventListener("click", () => {
   updateUpgradePrint();
 });
 
+const upgradeButtonD = document.createElement("button");
+upgradeButtonD.innerHTML = `${
+  availableItems[3].name
+} cost: ${availableItems[3].cost.toFixed(2)}`;
+app.append(upgradeButtonD);
+
+upgradeButtonD.addEventListener("click", () => {
+  currCount -= availableItems[3].cost;
+  upgradeTracker += availableItems[3].rate;
+  upgradeDTracker++;
+  availableItems[3].cost *= 1.15;
+  currDisplayPrint();
+  currScorePrint();
+  updateDisplayPrint();
+  updateUpgradePrint();
+});
+
+const upgradeButtonE = document.createElement("button");
+upgradeButtonE.innerHTML = `${
+  availableItems[4].name
+} cost: ${availableItems[4].cost.toFixed(2)}`;
+app.append(upgradeButtonE);
+
+upgradeButtonE.addEventListener("click", () => {
+  currCount -= availableItems[4].cost;
+  upgradeTracker += availableItems[4].rate;
+  upgradeETracker++;
+  availableItems[4].cost *= 1.15;
+  currDisplayPrint();
+  currScorePrint();
+  updateDisplayPrint();
+  updateUpgradePrint();
+});
+
 function upgradeCountTracker() {
   if (currCount >= availableItems[0].cost) {
     upgradeButtonA.disabled = false;
@@ -141,6 +205,16 @@ function upgradeCountTracker() {
     upgradeButtonC.disabled = false;
   } else {
     upgradeButtonC.disabled = true;
+  }
+  if (currCount >= availableItems[3].cost) {
+    upgradeButtonD.disabled = false;
+  } else {
+    upgradeButtonD.disabled = true;
+  }
+  if (currCount >= availableItems[4].cost) {
+    upgradeButtonE.disabled = false;
+  } else {
+    upgradeButtonE.disabled = true;
   }
   window.requestAnimationFrame(upgradeCountTracker);
 }
@@ -161,7 +235,7 @@ updateDisplayPrint();
 app.append(upgradeDisplay);
 
 function updateDisplayPrint() {
-  upgradeDisplay.innerHTML = `You're bought ${upgradeATracker} ${availableItems[0].name},  ${upgradeBTracker} ${availableItems[1].name}, and ${upgradeCTracker} ${availableItems[2].name}!`;
+  upgradeDisplay.innerHTML = `You're bought ${upgradeATracker} ${availableItems[0].name},  ${upgradeBTracker} ${availableItems[1].name}, ${upgradeCTracker} ${availableItems[2].name}, ${upgradeDTracker} ${availableItems[3].name}, and ${upgradeETracker} ${availableItems[4].name}!`;
 }
 
 function updateUpgradePrint() {
@@ -174,4 +248,41 @@ function updateUpgradePrint() {
   upgradeButtonC.innerHTML = `${
     availableItems[2].name
   } cost: ${availableItems[2].cost.toFixed(2)}`;
+  upgradeButtonD.innerHTML = `${
+    availableItems[3].name
+  } cost: ${availableItems[3].cost.toFixed(2)}`;
+  upgradeButtonE.innerHTML = `${
+    availableItems[4].name
+  } cost: ${availableItems[4].cost.toFixed(2)}`;
 }
+
+upgradeButtonA.addEventListener("mouseover", () => {
+  upgradeButtonA.innerHTML = `${availableItems[0].description}`;
+});
+upgradeButtonA.addEventListener("mouseout", () => {
+  updateUpgradePrint();
+});
+upgradeButtonB.addEventListener("mouseover", () => {
+  upgradeButtonB.innerHTML = `${availableItems[1].description}`;
+});
+upgradeButtonB.addEventListener("mouseout", () => {
+  updateUpgradePrint();
+});
+upgradeButtonC.addEventListener("mouseover", () => {
+  upgradeButtonC.innerHTML = `${availableItems[2].description}`;
+});
+upgradeButtonC.addEventListener("mouseout", () => {
+  updateUpgradePrint();
+});
+upgradeButtonD.addEventListener("mouseover", () => {
+  upgradeButtonD.innerHTML = `${availableItems[3].description}`;
+});
+upgradeButtonD.addEventListener("mouseout", () => {
+  updateUpgradePrint();
+});
+upgradeButtonE.addEventListener("mouseover", () => {
+  upgradeButtonE.innerHTML = `${availableItems[4].description}`;
+});
+upgradeButtonE.addEventListener("mouseout", () => {
+  updateUpgradePrint();
+});
