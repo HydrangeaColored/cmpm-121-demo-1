@@ -6,6 +6,18 @@ const gameName = "🍟 Fries Game 🍟";
 
 document.title = gameName;
 
+interface Item {
+  name: string;
+  cost: number;
+  rate: number;
+}
+
+const availableItems: Item[] = [
+  { name: "Scoop of fries", cost: 10, rate: 0.1 },
+  { name: "Cup of fries", cost: 100, rate: 2 },
+  { name: "Basket of fries", cost: 1000, rate: 50 },
+];
+
 const header = document.createElement("h1");
 header.innerHTML = gameName;
 app.append(header);
@@ -47,19 +59,16 @@ let upgradeTracker = 0;
 let upgradeATracker = 0;
 let upgradeBTracker = 0;
 let upgradeCTracker = 0;
-let upgradeAPrice = 10;
-let upgradeBPrice = 100;
-let upgradeCPrice = 1000;
 
 let timeStart = Date.now();
 function continuousGrowth() {
+  // if delta time > 1/60 of a sec in milliseconds
   if (Date.now() - timeStart > (1 / 60) * 1000) {
-    increaseScore(upgradeTracker * (1 / 30));
-    window.requestAnimationFrame(continuousGrowth);
+    // increase score by 1/60 (since 60 is a whole second so this is only part of rate)
+    increaseScore(upgradeTracker * (1 / 60));
     timeStart = Date.now();
-  } else {
-    window.requestAnimationFrame(continuousGrowth);
   }
+  window.requestAnimationFrame(continuousGrowth);
 }
 window.requestAnimationFrame(continuousGrowth);
 
@@ -67,14 +76,16 @@ const upgradeDiv = document.createElement("div");
 app.append(upgradeDiv);
 
 const upgradeButtonA = document.createElement("button");
-upgradeButtonA.innerHTML = `Cup of fries cost: ${upgradeAPrice.toFixed(2)}`;
+upgradeButtonA.innerHTML = `${
+  availableItems[0].name
+} cost: ${availableItems[0].cost.toFixed(2)}`;
 app.append(upgradeButtonA);
 
 upgradeButtonA.addEventListener("click", () => {
-  currCount -= 10;
-  upgradeTracker += 0.1;
+  currCount -= availableItems[0].cost;
+  upgradeTracker += availableItems[0].rate;
   upgradeATracker++;
-  upgradeAPrice *= 1.15;
+  availableItems[0].cost *= 1.15;
   currDisplayPrint();
   currScorePrint();
   updateDisplayPrint();
@@ -82,14 +93,16 @@ upgradeButtonA.addEventListener("click", () => {
 });
 
 const upgradeButtonB = document.createElement("button");
-upgradeButtonB.innerHTML = `Basket of fries cost: ${upgradeBPrice.toFixed(2)}`;
+upgradeButtonB.innerHTML = `${
+  availableItems[1].name
+} cost: ${availableItems[1].cost.toFixed(2)}`;
 app.append(upgradeButtonB);
 
 upgradeButtonB.addEventListener("click", () => {
-  currCount -= 100;
-  upgradeTracker += 2;
+  currCount -= availableItems[1].cost;
+  upgradeTracker += availableItems[1].rate;
   upgradeBTracker++;
-  upgradeBPrice *= 1.15;
+  availableItems[1].cost *= 1.15;
   currDisplayPrint();
   currScorePrint();
   updateDisplayPrint();
@@ -97,16 +110,16 @@ upgradeButtonB.addEventListener("click", () => {
 });
 
 const upgradeButtonC = document.createElement("button");
-upgradeButtonC.innerHTML = `Truckful of fries cost: ${upgradeCPrice.toFixed(
-  2,
-)}`;
+upgradeButtonC.innerHTML = `${
+  availableItems[2].name
+} cost: ${availableItems[2].cost.toFixed(2)}`;
 app.append(upgradeButtonC);
 
 upgradeButtonC.addEventListener("click", () => {
-  currCount -= 1000;
-  upgradeTracker += 50;
+  currCount -= availableItems[2].cost;
+  upgradeTracker += availableItems[2].rate;
   upgradeCTracker++;
-  upgradeCPrice *= 1.15;
+  availableItems[2].cost *= 1.15;
   currDisplayPrint();
   currScorePrint();
   updateDisplayPrint();
@@ -114,17 +127,17 @@ upgradeButtonC.addEventListener("click", () => {
 });
 
 function upgradeCountTracker() {
-  if (currCount >= upgradeAPrice) {
+  if (currCount >= availableItems[0].cost) {
     upgradeButtonA.disabled = false;
   } else {
     upgradeButtonA.disabled = true;
   }
-  if (currCount >= upgradeBPrice) {
+  if (currCount >= availableItems[1].cost) {
     upgradeButtonB.disabled = false;
   } else {
     upgradeButtonB.disabled = true;
   }
-  if (currCount >= upgradeCPrice) {
+  if (currCount >= availableItems[2].cost) {
     upgradeButtonC.disabled = false;
   } else {
     upgradeButtonC.disabled = true;
@@ -148,11 +161,17 @@ updateDisplayPrint();
 app.append(upgradeDisplay);
 
 function updateDisplayPrint() {
-  upgradeDisplay.innerHTML = `You're bought ${upgradeATracker} cup of fries,  ${upgradeBTracker} basket of fries, and ${upgradeCTracker} truckful of fries!`;
+  upgradeDisplay.innerHTML = `You're bought ${upgradeATracker} ${availableItems[0].name},  ${upgradeBTracker} ${availableItems[1].name}, and ${upgradeCTracker} ${availableItems[2].name}!`;
 }
 
 function updateUpgradePrint() {
-  upgradeButtonA.innerHTML = `Upgrade A cost: ${upgradeAPrice.toFixed(2)}`;
-  upgradeButtonB.innerHTML = `Upgrade B cost: ${upgradeBPrice.toFixed(2)}`;
-  upgradeButtonC.innerHTML = `Upgrade C cost: ${upgradeCPrice.toFixed(2)}`;
+  upgradeButtonA.innerHTML = `${
+    availableItems[0].name
+  } cost: ${availableItems[0].cost.toFixed(2)}`;
+  upgradeButtonB.innerHTML = `${
+    availableItems[1].name
+  } cost: ${availableItems[1].cost.toFixed(2)}`;
+  upgradeButtonC.innerHTML = `${
+    availableItems[2].name
+  } cost: ${availableItems[2].cost.toFixed(2)}`;
 }
